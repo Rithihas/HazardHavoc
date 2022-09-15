@@ -3,8 +3,67 @@
     margin : 0;
 }
 
-.container{
+.prematter{
+
+    margin : 100px;
     display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    justify-content: center;
+    align-items: center;
+}
+
+.midmatter{
+
+    margin : 100px;
+    display: none;
+    flex-direction: column;
+    row-gap: 20px;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.midmatter img{
+    height: 50px;
+    width: 50px;
+}
+
+.midmatter input{
+
+    height: 30px;
+    width: 300px;
+    border: 3px solid grey;
+    border-radius: 20px;
+    padding-left: 10px ;
+}
+
+.midmatter button{
+
+    height: 40px;
+    width: 100px;
+    border: 3px solid black;
+    border-radius: 10px;
+    margin-top: 30px;
+}
+
+.midmatter div{
+
+    display : none;
+}
+
+.choosebutton{
+
+    height: 60px;
+    width: 100px;
+    border: 2px solid gray;
+    background-color: black;
+    color: white;
+
+}
+
+.container{
+    display: none;
     flex-direction: column;
     row-gap: 20px;
     justify-content: center;
@@ -56,3 +115,17 @@ h1{
    background-image: url("bomb.svg");
 
 }
+
+.choosebutton:hover{
+
+    background-color: goldenrod;
+
+}
+
+.status{
+
+    font-size: 20px;
+    font-weight: bold;
+}
+
+

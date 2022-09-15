@@ -2,20 +2,55 @@ let startofgame = true;
 let playcount = 0;
 let maxplayers = 2;
 let turn = -1;
+let invalidmove = false;
 
-var p1;
-var p2;
 
-var players = [p1,p2];
+
+var players = [];
 
 var colourarray = ["url(playerred.svg)","url(playerblue.svg)","url(playergreen.svg)","url(playeryellow.svg)"];
 
 var deatharray = [];
 
+var playernames = [];
+
+function toSecond(s)
+{
+     document.getElementById("pre").style.display = 'none';
+     document.getElementById("mid").style.display = 'flex';
+
+     maxplayers = parseInt(s);
+
+     var currentplayers = document.getElementById("mid").getElementsByClassName("flexentry");
+
+     for(let i=0 ; i<maxplayers ; i++)
+     {
+       currentplayers[i].style.display = "flex";
+     }
+}
+
+function startgame() 
+{
+
+   for(let i=26; i<26+maxplayers ; i++)
+   {
+     
+       playernames[i-26] = document.getElementById(i.toString()).value;
+
+   }
+
+
+   document.getElementById("mid").style.display = 'none';
+     document.getElementById("fin").style.display = 'flex';
+  
+
+
+}
+
 function occupied(x)
 {
     var occup = false;
-    for(let i=0 ; i<2 ; i++)
+    for(let i=0 ; i<maxplayers ; i++)
     {
         if(players[i].currentbox == x)
         occup = true;
@@ -65,10 +100,10 @@ function clicked(x)
      {
         
 
-        document.getElementById("stat").value = "Initial positioning";
+        document.getElementById("stat").value = playernames[playcount]+" has chosen their starting field.";
         
         
-        players[playcount] = new Player("arrancar",playcount+1,0,colourarray[playcount]);
+        players[playcount] = new Player(playernames[playcount],playcount+1,0,colourarray[playcount]);
         players[playcount].currentbox = x;
         document.getElementById(x).style.backgroundImage = colourarray[playcount];
 
@@ -82,10 +117,10 @@ function clicked(x)
 
      else 
      {
- 
-        turn = (turn+1)%2;
+        invalidmove = false;
+        turn = (turn+1)%maxplayers;
 
-        document.getElementById("stat").value = "In play";
+        
 
         if(players[turn].currentbox == x && !deatharray.includes(x))
         {
@@ -109,14 +144,18 @@ function clicked(x)
                 }}, 300);
                
             }
-            document.getElementById("stat").value = "valid move";
+            document.getElementById("stat").value = playernames[turn]+" moved";
 
         }
         else
-      {   
-        document.getElementById("stat").value = "invalid move";
-        turn = turn+1;
+      {  invalidmove = true; 
+        document.getElementById("stat").value = "invalid move by "+playernames[turn];
+        turn = turn+maxplayers-1;
       }
+
+      if(!invalidmove)
+      document.getElementById("stat").value = playernames[(turn+1)%maxplayers]+"'s turn";
+
      }
 
 }

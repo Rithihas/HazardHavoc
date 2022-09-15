@@ -15,12 +15,29 @@
 
 <body>
 
-    <div class="container">
+    <div class="prematter" id="pre">
+        <h1>choose number of players</h1>
+        <button class="choosebutton" onclick="toSecond(1)">1</button>
+        <button class="choosebutton" onclick="toSecond(2)">2</button>
+        <button class="choosebutton" onclick="toSecond(3)">3</button>
+        <button class="choosebutton" onclick="toSecond(4)">4</button>
+     </div>
+     
+     <div class="midmatter" id="mid">
+        <h1>enter names of players: </h1>
+        <div class="flexentry"><img src="playerred.svg" class ="showplayer"><input type="text" class = "nameentry" id="26"></div>
+        <div class="flexentry"><img src="playerblue.svg" class ="showplayer"><input type="text" class = "nameentry" id="27"></div>
+        <div class="flexentry"><img src="playergreen.svg" class ="showplayer"><input type="text" class = "nameentry" id="28"></div>
+        <div class="flexentry"><img src="playeryellow.svg" class ="showplayer"><input type="text" class = "nameentry" id="29"></div>
+        <button class="startbutton" onclick="startgame()" >START</button>
+        </div>
+
+    <div class="container" id="fin">
 
     
            <h1> HazardHavoc </h1>
 
-           <output class = "status" id="stat"></output>
+           
 
            <div class="field">
 
@@ -60,7 +77,7 @@
 
      </div>   
     
-
+     <output class = "status" id="stat"></output>
 
 </body>
 
