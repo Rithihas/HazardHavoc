@@ -71,6 +71,7 @@ class Player {
         this.pnumber = pnumber;
         this.currentbox = currentbox;
         this.playercolour = playercolour;
+        
     }
 
     validateMove(m) {
@@ -103,7 +104,7 @@ function clicked(x)
         document.getElementById("stat").value = playernames[playcount]+" has chosen their starting field.";
         
         
-        players[playcount] = new Player(playernames[playcount],playcount+1,0,colourarray[playcount]);
+        players[playcount] = new Player(playernames[playcount],playcount+1,0,colourarray[playcount],false);
         players[playcount].currentbox = x;
         document.getElementById(x).style.backgroundImage = colourarray[playcount];
 
@@ -137,11 +138,30 @@ function clicked(x)
             players[turn].currentbox = x;
             if(deatharray.includes(x))
             {
+             
               setTimeout(() => { let deadplayer = players[turn].pname;
-                if(confirm(deadplayer+" is dead. The game has ended. Press Ok to restart"))
-                {
-                   location.reload();
-                }}, 300);
+                document.getElementById(x).style.backgroundImage = "none";
+                alert(players[turn].pname+" died. trash gameplay.");
+                maxplayers--;
+              players.splice(turn,1);
+              playernames.splice(turn,1);
+              colourarray.splice(turn,1);
+
+              turn = (turn-1)%maxplayers;
+
+              if(maxplayers==1){
+                setTimeout(() => { let winplayer = players[0].pname;
+                  if(confirm(winplayer+" has won the game. The game has ended. Press Ok to restart"))
+                  {
+                     location.reload();
+                  }}, 300);
+  
+                }
+                }, 300);
+              
+              
+
+              
                
             }
             document.getElementById("stat").value = playernames[turn]+" moved";
