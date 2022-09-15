@@ -10,6 +10,8 @@ var players = [p1,p2];
 
 var colourarray = ["url(playerred.svg)","url(playerblue.svg)","url(playergreen.svg)","url(playeryellow.svg)"];
 
+var deatharray = [];
+
 function occupied(x)
 {
     var occup = false;
@@ -85,11 +87,28 @@ function clicked(x)
 
         document.getElementById("stat").value = "In play";
 
-        if(players[turn].validateMove(x))
+        if(players[turn].currentbox == x && !deatharray.includes(x))
+        {
+          // let str = x;
+          document.getElementById(x).getElementsByClassName("bombs")[0].style.display = "block";
+          deatharray.push(x);
+          
+        }
+
+       else if(players[turn].validateMove(x))
         {
             document.getElementById(players[turn].currentbox).style.backgroundImage = "none";
             document.getElementById(x).style.backgroundImage = colourarray[turn];
             players[turn].currentbox = x;
+            if(deatharray.includes(x))
+            {
+              setTimeout(() => { let deadplayer = players[turn].pname;
+                if(confirm(deadplayer+" is dead. The game has ended. Press Ok to restart"))
+                {
+                   location.reload();
+                }}, 300);
+               
+            }
             document.getElementById("stat").value = "valid move";
 
         }
