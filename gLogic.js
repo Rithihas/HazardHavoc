@@ -90,6 +90,53 @@ class Player {
 
 
 
+function shiftBombs()
+{
+    for(let i=0 ; i<deatharray.length ; i++)
+    {
+      document.getElementById(deatharray[i]).getElementsByClassName("bombs")[0].style.display = "none";
+      deatharray[i] = (deatharray[i] + 5)%25;
+      document.getElementById(deatharray[i]).getElementsByClassName("bombs")[0].style.display = "block";
+    }
+
+
+    for(let i=0 ; i<maxplayers ; i++)
+    {
+
+      if(deatharray.includes(players[i].currentbox))
+      {
+       
+        setTimeout(() => { let deadplayer = players[i].pname;
+          document.getElementById(players[i].currentbox).style.backgroundImage = "none";
+          alert(players[i].pname+" died. trash gameplay.");
+          maxplayers--;
+        players.splice(i,1);
+        playernames.splice(i,1);
+        colourarray.splice(i,1);
+
+        turn = (turn-1)%maxplayers;
+
+        if(maxplayers==1){
+          setTimeout(() => { let winplayer = players[0].pname;
+            if(confirm(winplayer+" has won the game. The game has ended. Press Ok to restart"))
+            {
+               location.reload();
+            }}, 300);
+
+          }
+          }, 300);
+        
+        
+
+        
+         
+      }
+
+    }
+
+
+}
+
 
 
 
@@ -120,6 +167,8 @@ function clicked(x)
      {
         invalidmove = false;
         turn = (turn+1)%maxplayers;
+
+        
 
         
 
@@ -165,6 +214,14 @@ function clicked(x)
                
             }
             document.getElementById("stat").value = playernames[turn]+" moved";
+
+
+            if(turn==maxplayers-1)
+            {
+
+               shiftBombs();
+
+            }
 
         }
         else
