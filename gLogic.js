@@ -1,19 +1,25 @@
-let startofgame = true;
-let playcount = 0;
-let maxplayers = 2;
-let turn = -1;
-let invalidmove = false;
+
+// global variables
+
+let startofgame = true;  //tells whether players have initialized their positions or not.
+let playcount = 0;       //helps in player initialization. never used again.
+let maxplayers = 2;      // stores the number of players playing.
+let turn = -1;           // tracks whose turn it is to play.
+let invalidmove = false; // for status printing?.
+let shiftdone = false;
 
 
+// various arrays used to store data .
 
-var players = [];
+var players = [];  //stores player objects.
 
-var colourarray = ["url(playerred.svg)","url(playerblue.svg)","url(playergreen.svg)","url(playeryellow.svg)"];
+var colourarray = ["url(playerred.svg)","url(playerblue.svg)","url(playergreen.svg)","url(playeryellow.svg)"]; //stores player icons.
 
-var deatharray = [];
+var deatharray = [];  //stores the field block ids which cause death (bomb present).
 
-var playernames = [];
+var playernames = []; // stores player names entered at the start.
 
+//for tranistion from number of players to enter player names.
 function toSecond(s)
 {
      document.getElementById("pre").style.display = 'none';
@@ -29,6 +35,7 @@ function toSecond(s)
      }
 }
 
+//for transition from enter player names to actual game.
 function startgame() 
 {
 
@@ -47,10 +54,11 @@ function startgame()
 
 }
 
+// this function tells whether a field is currently occupied by another player or not.
 function occupied(x)
 {
     var occup = false;
-    for(let i=0 ; i<maxplayers ; i++)
+    for(let i=0 ; i<playcount ; i++)
     {
         if(players[i].currentbox == x)
         occup = true;
@@ -60,9 +68,11 @@ function occupied(x)
     return occup;
 
     
-}    
+}
 
 
+
+// class for the player objects. very useful
 class Player {
 
     constructor(pname , pnumber , currentbox , playercolour)
@@ -74,6 +84,7 @@ class Player {
         
     }
 
+    // this class method tells whether a player can make a certain move or not.
     validateMove(m) {
 
       if(( Math.abs(m - this.currentbox) == 1 || Math.abs(m-this.currentbox) == 5 ) && !occupied(m))
@@ -89,17 +100,25 @@ class Player {
 }
 
 
-
+// shifts the location of the bombs to one field below. (UNDER IMPLEMENTATION)
 function shiftBombs()
 {
+
+    //this loop changes the bomb icon position and death array numbers
+     
     for(let i=0 ; i<deatharray.length ; i++)
     {
       document.getElementById(deatharray[i]).getElementsByClassName("bombs")[0].style.display = "none";
+      if(deatharray[i]!=20)
       deatharray[i] = (deatharray[i] + 5)%25;
+      else 
+      {
+        deatharray[i] = 25;
+      }
       document.getElementById(deatharray[i]).getElementsByClassName("bombs")[0].style.display = "block";
     }
 
-
+    //checks whether any falling bomb has caused any death 
     for(let i=0 ; i<maxplayers ; i++)
     {
 
@@ -140,14 +159,14 @@ function shiftBombs()
 
 
 
-
+// main functionality of the game
 function clicked(x)
 {
-
+     // position initialization
      if(startofgame==true) 
      {
         
-
+        if(playcount == 0 || !occupied(x)) {
         document.getElementById("stat").value = playernames[playcount]+" has chosen their starting field.";
         
         
@@ -161,30 +180,54 @@ function clicked(x)
         
         if(playcount == maxplayers)
         startofgame = false;
+
+        }
+        else 
+        {
+          document.getElementById("stat").value = "Chosen field is already occupied.";
+          
+        }
      }
 
+     // normal gameplay mechanics
      else 
      {
         invalidmove = false;
+        shiftdone = false;
         turn = (turn+1)%maxplayers;
 
         
 
         
-
+        //bomb placement 
         if(players[turn].currentbox == x && !deatharray.includes(x))
         {
-          // let str = x;
+
+          if(turn!= maxplayers-1)
+          {
           document.getElementById(x).getElementsByClassName("bombs")[0].style.display = "block";
           deatharray.push(x);
+          }
+
+          else 
+          {
+             shiftBombs();
+             document.getElementById(x).getElementsByClassName("bombs")[0].style.display = "block";
+             deatharray.push(x);
+             shiftdone = true;
+          }
+          
           
         }
 
+        //moves player
        else if(players[turn].validateMove(x))
         {
             document.getElementById(players[turn].currentbox).style.backgroundImage = "none";
             document.getElementById(x).style.backgroundImage = colourarray[turn];
             players[turn].currentbox = x;
+
+            //if moved into a bomb placed field
             if(deatharray.includes(x))
             {
              
@@ -213,10 +256,11 @@ function clicked(x)
               
                
             }
+
             document.getElementById("stat").value = playernames[turn]+" moved";
 
-
-            if(turn==maxplayers-1)
+            
+            if(turn==maxplayers-1 && !shiftdone)
             {
 
                shiftBombs();
@@ -224,6 +268,8 @@ function clicked(x)
             }
 
         }
+
+        //balancing an invalid move
         else
       {  invalidmove = true; 
         document.getElementById("stat").value = "invalid move by "+playernames[turn];
