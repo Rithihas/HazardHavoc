@@ -8,7 +8,7 @@ let turn = -1;           // tracks whose turn it is to play.
 let invalidmove = false; // for status printing?.
 let shiftdone = false;   // for not allowing multiple bomb shifts.
 let lastplayerfallen = false; // for delaying shifting of bombs when last player steps into a bomb field.
-
+var count = 0;
 
 // various arrays used to store data .
 
@@ -244,11 +244,31 @@ function clicked(x)
         //moves player
        else if(players[turn].validateMove(x))
         {
+
+         
             document.getElementById(players[turn].currentbox).style.backgroundImage = "none";
             
             document.getElementById(x).style.backgroundImage = colourarray[turn];
+          //   document.getElementById(x).style.backgroundSize = "0px";             
+          //    count = 0;
+            
+          //    setInterval(function()
+          //  {   
+          //     if(count==50)
+          //    {
+          //       clearInterval();
+          //    }
+          //     else{ 
+          //       count++;    
+          //       document.getElementById(x).style.backgroundSize = count+1+"px"; 
+          //       console.log(document.getElementById(x).style.backgroundSize);              
+          //       console.log(count);    
+          //     }
+          //       }, 10);
+            
+                       
             players[turn].currentbox = x;
-
+            
             //if moved into a bomb placed field
             if(deatharray.includes(x))
             {
@@ -315,6 +335,22 @@ function clicked(x)
      }
 
 }
+
+
+
+
+// let timer = null;
+// let scale = 0;
+// clearInterval(timer);
+// timer = setInterval(frame, 100);
+// function frame() {
+//   if (scale == 50) {
+//     clearInterval(timer);
+//   } else {
+//     scale++;
+//     document.getElementById(players[turn].currentbox).style.backgroundSize =  toString(parseInt( document.getElementById(players[turn].currentbox).style.backgroundSize) - scale) + "px";
+//   }
+// }
 
 
 
