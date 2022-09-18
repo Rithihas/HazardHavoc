@@ -251,7 +251,7 @@ function clicked(x)
             //if moved into a bomb placed field
             if(deatharray.includes(x))
             {
-              if(turn = maxplayers-1)
+              if(turn == maxplayers-1)
               lastplayerfallen = true;
               
               setTimeout(() => { 
