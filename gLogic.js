@@ -245,6 +245,7 @@ function clicked(x)
        else if(players[turn].validateMove(x))
         {
             document.getElementById(players[turn].currentbox).style.backgroundImage = "none";
+            
             document.getElementById(x).style.backgroundImage = colourarray[turn];
             players[turn].currentbox = x;
 
@@ -314,6 +315,8 @@ function clicked(x)
      }
 
 }
+
+
 
 
 // setTimeout(() => {  }, 300);
