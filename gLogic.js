@@ -6,7 +6,8 @@ let playcount = 0;       //helps in player initialization. never used again.
 let maxplayers = 2;      // stores the number of players playing.
 let turn = -1;           // tracks whose turn it is to play.
 let invalidmove = false; // for status printing?.
-let shiftdone = false;
+let shiftdone = false;   // for not allowing multiple bomb shifts.
+let lastplayerfallen = false; // for delaying shifting of bombs when last player steps into a bomb field.
 
 
 // various arrays used to store data .
@@ -58,10 +59,21 @@ function startgame()
 function occupied(x)
 {
     var occup = false;
+
+    if(startofgame)
     for(let i=0 ; i<playcount ; i++)
     {
         if(players[i].currentbox == x)
         occup = true;
+    }
+
+    else 
+    {
+      for(let i=0 ; i<maxplayers ; i++)
+    {
+        if(players[i].currentbox == x)
+        occup = true;
+    }
     }
     
     
@@ -125,7 +137,11 @@ function shiftBombs()
       if(deatharray.includes(players[i].currentbox))
       {
        
-        setTimeout(() => { let deadplayer = players[i].pname;
+        
+        setTimeout(() => {
+          
+          if(maxplayers!=1) {
+          let deadplayer = players[i].pname;
           document.getElementById(players[i].currentbox).style.backgroundImage = "none";
           alert(players[i].pname+" died. trash gameplay.");
           maxplayers--;
@@ -134,12 +150,16 @@ function shiftBombs()
         colourarray.splice(i,1);
 
         turn = (turn-1)%maxplayers;
+        
+          }
+        
 
         if(maxplayers==1){
           setTimeout(() => { let winplayer = players[0].pname;
             if(confirm(winplayer+" has won the game. The game has ended. Press Ok to restart"))
             {
                location.reload();
+               return;
             }}, 300);
 
           }
@@ -194,6 +214,7 @@ function clicked(x)
      {
         invalidmove = false;
         shiftdone = false;
+        lastplayerfallen = false;
         turn = (turn+1)%maxplayers;
 
         
@@ -230,8 +251,12 @@ function clicked(x)
             //if moved into a bomb placed field
             if(deatharray.includes(x))
             {
-             
-              setTimeout(() => { let deadplayer = players[turn].pname;
+              if(turn = maxplayers-1)
+              lastplayerfallen = true;
+              
+              setTimeout(() => { 
+                if(maxplayers!=1) {
+                let deadplayer = players[turn].pname;
                 document.getElementById(x).style.backgroundImage = "none";
                 alert(players[turn].pname+" died. trash gameplay.");
                 maxplayers--;
@@ -241,11 +266,14 @@ function clicked(x)
 
               turn = (turn-1)%maxplayers;
 
+                }
+
               if(maxplayers==1){
                 setTimeout(() => { let winplayer = players[0].pname;
                   if(confirm(winplayer+" has won the game. The game has ended. Press Ok to restart"))
                   {
                      location.reload();
+                     return;
                   }}, 300);
   
                 }
@@ -262,8 +290,12 @@ function clicked(x)
             
             if(turn==maxplayers-1 && !shiftdone)
             {
-
+               if(!lastplayerfallen)
                shiftBombs();
+               else 
+               {
+                setTimeout(() => { shiftBombs(); }, 300);
+               }
 
             }
 
@@ -282,3 +314,6 @@ function clicked(x)
      }
 
 }
+
+
+// setTimeout(() => {  }, 300);
