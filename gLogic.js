@@ -194,8 +194,8 @@ function clicked(x)
         players[playcount].currentbox = x;
         document.getElementById(x).style.backgroundImage = colourarray[playcount];
              const animate1=[
-                  {transform:scale(0);},
-                  {transform:scale(1)}
+                  {backgroundSize:'0px';},
+                  {backgrounSize:'50px'}
              ];
              
              const animate2={
@@ -203,7 +203,7 @@ function clicked(x)
                   iteration:1
              }
              
-         document.getElementById(x).style.backgroundImage.animate(animate1,animate2);        
+         document.getElementById(x).animate(animate1,animate2);        
              
         playcount+=1;
 
