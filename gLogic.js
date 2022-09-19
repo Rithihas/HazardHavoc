@@ -1,4 +1,5 @@
 
+
 // global variables
 
 let startofgame = true;  //tells whether players have initialized their positions or not.
@@ -193,7 +194,18 @@ function clicked(x)
         players[playcount] = new Player(playernames[playcount],playcount+1,0,colourarray[playcount],false);
         players[playcount].currentbox = x;
         document.getElementById(x).style.backgroundImage = colourarray[playcount];
-
+             const animate1=[
+                  {backgroundSize:'0px'},
+                  {backgrounSize:'50px'}
+             ];
+             
+             const animate2={
+                duration:250,
+                  iteration:1
+             }
+             
+         document.getElementById(x).animate(animate1,animate2);        
+             
         playcount+=1;
 
         
@@ -249,6 +261,16 @@ function clicked(x)
             document.getElementById(players[turn].currentbox).style.backgroundImage = "none";
             
             document.getElementById(x).style.backgroundImage = colourarray[turn];
+            const animate1=[
+                {backgroundSize:'0px'},
+                {backgrounSize:'50px'}
+           ];
+           
+           const animate2={
+              duration:250,
+                iteration:1
+           }
+           document.getElementById(x).animate(animate1,animate2);
           //   document.getElementById(x).style.backgroundSize = "0px";             
           //    count = 0;
             
