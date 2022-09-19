@@ -271,24 +271,7 @@ function clicked(x)
                 iteration:1
            }
            document.getElementById(x).animate(animate1,animate2);
-          //   document.getElementById(x).style.backgroundSize = "0px";             
-          //    count = 0;
-            
-          //    setInterval(function()
-          //  {   
-          //     if(count==50)
-          //    {
-          //       clearInterval();
-          //    }
-          //     else{ 
-          //       count++;    
-          //       document.getElementById(x).style.backgroundSize = count+1+"px"; 
-          //       console.log(document.getElementById(x).style.backgroundSize);              
-          //       console.log(count);    
-          //     }
-          //       }, 10);
-            
-                       
+                              
             players[turn].currentbox = x;
             
             //if moved into a bomb placed field
@@ -357,24 +340,5 @@ function clicked(x)
      }
 
 }
-
-
-
-
-// let timer = null;
-// let scale = 0;
-// clearInterval(timer);
-// timer = setInterval(frame, 100);
-// function frame() {
-//   if (scale == 50) {
-//     clearInterval(timer);
-//   } else {
-//     scale++;
-//     document.getElementById(players[turn].currentbox).style.backgroundSize =  toString(parseInt( document.getElementById(players[turn].currentbox).style.backgroundSize) - scale) + "px";
-//   }
-// }
-
-
-
 
 // setTimeout(() => {  }, 300);
